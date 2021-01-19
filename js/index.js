@@ -61,7 +61,7 @@ fetch('./ZonAnn.Ts+dSST.csv')
                 ticks: {
                     // Добавляет Знак цельсия по вертикальной оси
                     callback: function(value) {
-                        return '℃' + value;
+                        return value  + '℃';
                     }
                 }
             }]
@@ -78,3 +78,4 @@ fetch('./ZonAnn.Ts+dSST.csv')
 //Теперь что бы график отрисоать используем библиотеку https://www.chartjs.org/
 
 
+console.log(window);
