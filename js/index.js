@@ -7,13 +7,44 @@
 /* 
 * header: true - Делает первую строку файла ключем обьекта а все последующие свойствами ключей
  */
+var ctx = document.getElementById('myChart').getContext('2d');
+
+
 const config = {
     header: true
 }
 
 fetch('./ZonAnn.Ts+dSST.csv')
     .then(res => res.text())
-    .then(data => console.log(Papa.parse(data,config)))
+    .then(data => {
+        const parsedData = Papa.parse(data, config).data
+        const year = parsedData.map((entry) => entry.Year)
+        const glob = parsedData.map((entry) => +entry.Glob +14) 
+
+        // console.log(Glob);
+
+        new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: year,
+        datasets: [{
+            label: '# of Votes',
+            data: glob,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 2
+        }]
+    },
+
+});
+
+    }) 
 
 
-//Теперь что бы график отрисоать используем библиотеку
+//Теперь что бы график отрисоать используем библиотеку https://www.chartjs.org/
+
+
