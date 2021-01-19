@@ -19,7 +19,9 @@ fetch('./ZonAnn.Ts+dSST.csv')
     .then(data => {
         const parsedData = Papa.parse(data, config).data
         const year = parsedData.map((entry) => entry.Year)
-        const glob = parsedData.map((entry) => +entry.Glob +14) 
+        const glob = parsedData.map((entry) => +entry.Glob + 14) //+14 это средн. темпер на планете за год
+        
+        const sHem = parsedData.map((entry) => +entry.SHem + 14)
 
         // console.log(Glob);
 
@@ -28,21 +30,49 @@ fetch('./ZonAnn.Ts+dSST.csv')
     data: {
         labels: year,
         datasets: [{
-            label: '# of Votes',
+            label: '# Средн. температура на планете',
             data: glob,
             backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
+                'transparent',
             ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
             ],
-            borderWidth: 2
-        }]
-    },
+            borderWidth: 1
+        },
+            //  ПЛЮС еще один график там же
+        {
+            label: '# Средн. температура на СЕВЕРНОМ ПОЛУШАРИИ',  
+            data: sHem,
+            
+            backgroundColor: [
+                'transparent',
+            ],
+            borderColor: [
+                'green',
+            ],
+            borderWidth: 1
+            }]
+        
+            },
+     options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    // Добавляет Знак цельсия по вертикальной оси
+                    callback: function(value) {
+                        return '℃' + value;
+                    }
+                }
+            }]
+        }
+    }
 
-});
+        });
 
     }) 
+
+    
 
 
 //Теперь что бы график отрисоать используем библиотеку https://www.chartjs.org/
